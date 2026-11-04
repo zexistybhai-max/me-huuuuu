@@ -1,0 +1,1020 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090617">
+
+<title>MERI WEBSITE</title>
+<meta property="og:title" content="MERI WEBSITE">
+<meta property="og:description" content="ENTER IF YOU DARE">
+<meta property="og:type" content="website">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@400;600;700&display=swap');
+
+:root {
+  --bg:#090617;
+  --pink:#ff4fd8;
+  --cyan:#4deaff;
+  --gold:#ffd77a;
+  --white:#fff7ff;
+}
+
+* {box-sizing:border-box}
+
+body {
+  margin:0;
+  min-height:100vh;
+  color:var(--white);
+  font-family:Rajdhani,sans-serif;
+  background:
+    radial-gradient(ellipse at top,#32104d 0%,#10091e 48%,#03020a 100%);
+  overflow-x:hidden;
+}
+
+body:before {
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.3;
+  background-image:
+    radial-gradient(#fff 1px,transparent 1px),
+    radial-gradient(#c38aff 1px,transparent 1px);
+  background-size:70px 70px,110px 110px;
+}
+
+header,footer {
+  position:relative;
+  z-index:2;
+  display:flex;
+  justify-content:space-between;
+  padding:18px 5%;
+  color:#c5aee5;
+  font:10px Orbitron;
+  letter-spacing:2px;
+}
+
+main {
+  min-height:80vh;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  position:relative;
+  z-index:1;
+}
+
+.screen {
+  display:none;
+  width:min(750px,100%);
+  text-align:center;
+  animation:appear .7s ease;
+}
+
+.screen.active {display:block}
+
+@keyframes appear {
+  from {opacity:0;transform:translateY(20px)}
+  to {opacity:1;transform:translateY(0)}
+}
+
+h1 {
+  font:900 clamp(38px,9vw,78px) Orbitron;
+  line-height:1.15;
+  text-shadow:0 0 25px #b13bff88;
+}
+
+h1 span {color:var(--gold)}
+
+h2 {
+  font:700 clamp(20px,4vw,30px) Orbitron;
+}
+
+p {font-size:18px}
+
+.eyebrow {
+  font:11px Orbitron;
+  letter-spacing:3px;
+  color:var(--cyan);
+}
+
+.gold {color:var(--gold)}
+.pink {color:var(--pink)}
+
+button {
+  cursor:pointer;
+  border:0;
+  font-family:Orbitron;
+  font-weight:800;
+  letter-spacing:1px;
+  transition:.25s;
+}
+
+button:hover {
+  transform:translateY(-3px);
+  box-shadow:0 0 25px #ff62d8;
+}
+
+.primary {
+  padding:16px 25px;
+  border-radius:6px;
+  color:#14091e;
+  background:linear-gradient(100deg,var(--gold),#ff8be6);
+  box-shadow:0 0 25px #ff62d866;
+}
+
+.secondary {
+  padding:14px 22px;
+  color:white;
+  border:1px solid var(--cyan);
+  border-radius:5px;
+  background:#211433;
+}
+
+.hidden {display:none!important}
+
+/* INTRO */
+
+.hero-title span {
+  color:var(--gold);
+  text-shadow:0 0 25px #ffc85c;
+}
+
+.made {
+  font:800 clamp(15px,3vw,23px) Orbitron;
+  letter-spacing:3px;
+  color:#ff8fe8;
+  text-shadow:0 0 15px var(--pink);
+}
+
+.portal {
+  width:145px;
+  height:145px;
+  margin:30px auto;
+  border:3px solid var(--cyan);
+  border-radius:50%;
+  box-shadow:0 0 30px var(--cyan),inset 0 0 30px #b33cff;
+  animation:pulse 3s infinite;
+  display:grid;
+  place-items:center;
+  font-size:60px;
+}
+
+@keyframes pulse {
+  50% {transform:scale(1.1);filter:hue-rotate(90deg)}
+}
+
+.sparkle {
+  color:var(--gold);
+  animation:float 2s infinite alternate;
+}
+
+@keyframes float {
+  to {transform:translateY(-18px) rotate(25deg)}
+}
+
+/* QUIZ */
+
+.quiz-head {
+  display:flex;
+  justify-content:space-between;
+  font:11px Orbitron;
+  letter-spacing:2px;
+  color:#d5b9f3;
+}
+
+.progress {
+  height:6px;
+  margin-top:12px;
+  background:#302044;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.progress div {
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,var(--cyan),var(--pink));
+  transition:.4s;
+}
+
+.question-card {
+  margin:25px auto;
+  padding:30px;
+  border:1px solid #7756a1;
+  border-radius:15px;
+  background:linear-gradient(145deg,#211333ed,#0d0919ed);
+  box-shadow:0 15px 60px #0009;
+}
+
+.question-card h2 {
+  line-height:1.4;
+  margin:25px 0;
+}
+
+.answers {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.answer {
+  padding:17px 12px;
+  text-align:left;
+  border:1px solid #60427c;
+  border-radius:7px;
+  color:white;
+  background:#211433;
+  font:600 16px Rajdhani;
+}
+
+.answer strong {
+  color:var(--gold);
+  margin-right:10px;
+}
+
+.answer:disabled {opacity:.7}
+
+.feedback {
+  min-height:25px;
+  color:var(--gold);
+  font:700 17px Orbitron;
+}
+
+.reaction {
+  min-height:65px;
+  font-size:24px;
+  color:#ff9ee9;
+}
+
+.dog-animation {
+  font-size:55px;
+  animation:doggo .6s infinite alternate;
+}
+
+@keyframes doggo {
+  to {transform:rotate(12deg) scale(1.15)}
+}
+
+.celebrate {
+  animation:celebrate .5s infinite alternate;
+}
+
+@keyframes celebrate {
+  to {transform:translateY(-12px) rotate(5deg)}
+}
+
+/* GIFT */
+
+.chest {
+  display:block;
+  margin:35px auto;
+  padding:30px;
+  width:210px;
+  height:150px;
+  border:2px solid var(--gold);
+  border-radius:15px;
+  color:var(--gold);
+  background:linear-gradient(145deg,#9c561d,#30103c);
+  box-shadow:0 0 35px #ffc85c77;
+  font-size:50px;
+}
+
+.gift-space {height:180px}
+
+.gift-line {
+  font:700 19px Orbitron;
+  line-height:1.7;
+  color:var(--gold);
+}
+
+.dance-character {
+  font-size:95px;
+  padding:35px;
+  animation:dance .5s infinite alternate;
+}
+
+@keyframes dance {
+  to {transform:rotate(12deg) translateY(-12px)}
+}
+
+.popup {
+  color:var(--gold);
+  font:800 23px Orbitron;
+  text-shadow:0 0 20px var(--pink);
+}
+
+.bouquet {
+  font-size:clamp(90px,20vw,170px);
+  animation:appear 1s;
+}
+
+/* ENDING */
+
+.end-name {
+  color:var(--gold);
+  font-size:clamp(60px,12vw,100px);
+  text-shadow:0 0 35px #ffcc66;
+}
+
+.mission {
+  margin:30px auto;
+  padding:20px;
+  max-width:500px;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  font:800 19px Orbitron;
+  letter-spacing:2px;
+}
+
+/* MEMORY CARD */
+
+.memory-card {
+  max-width:530px;
+  margin:auto;
+  padding:30px 20px;
+  border:4px double var(--gold);
+  outline:1px solid var(--pink);
+  outline-offset:6px;
+  border-radius:18px;
+  background:radial-gradient(circle at top,#49306d,#10091e 70%);
+  box-shadow:0 0 40px #e7b45c66,0 0 55px #b84cff55;
+}
+
+.monkey {
+  font-size:90px;
+  margin:20px;
+  animation:float 2s infinite alternate;
+}
+
+.stamp {
+  display:inline-block;
+  padding:13px 20px;
+  border:3px double var(--gold);
+  transform:rotate(-7deg);
+  color:var(--gold);
+  font:900 18px Orbitron;
+  text-shadow:0 0 12px #ffb94d;
+}
+
+.tagline {
+  margin:30px;
+  color:#ff9de8;
+  font:700 17px Orbitron;
+}
+
+.secret {
+  color:var(--cyan);
+  font:700 18px Orbitron;
+  margin:20px;
+}
+
+@media(max-width:550px) {
+  .answers {grid-template-columns:1fr}
+  .question-card {padding:20px}
+  header,footer {font-size:8px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <span>✦ ULLU SECRET ARCHIVE</span>
+  <span>CLASSIFIED</span>
+</header>
+
+<main>
+
+<!-- INTRO -->
+<section id="intro" class="screen active">
+  <p class="eyebrow">A PRIVATE MYSTERY EXPERIENCE</p>
+
+  <h1 class="hero-title">ye dekh <span>ULLU</span></h1>
+
+  <p class="made">MADE FOR U GANDUUUU</p>
+
+  <div class="portal">
+    <span class="sparkle">✦</span>
+  </div>
+
+  <p>A secret mission awaits...</p>
+
+  <button class="primary" id="enterBtn">
+    ENTER THE MYSTERY ↗
+  </button>
+</section>
+
+
+<!-- QUIZ -->
+<section id="quiz" class="screen">
+
+  <div class="quiz-head">
+    <span>THE ULLU CHALLENGE</span>
+    <span id="progressText">01 / 15</span>
+  </div>
+
+  <div class="progress">
+    <div id="progressBar"></div>
+  </div>
+
+  <div class="question-card">
+    <p class="eyebrow" id="qNum">QUESTION 01</p>
+    <h2 id="questionText"></h2>
+    <div class="answers" id="answers"></div>
+    <p class="feedback" id="feedback"></p>
+  </div>
+
+  <div class="reaction" id="reaction"></div>
+</section>
+
+
+<!-- GIFT -->
+<section id="gift" class="screen">
+
+  <p class="eyebrow">FINAL TREASURE UNLOCKED</p>
+  <h1>THE MYSTERY<br><span class="gold">GIFT BOX</span></h1>
+
+  <button class="chest" id="chestBtn">
+    👑<br><small>OPEN THE CHEST</small>
+  </button>
+
+  <p id="monkeyLine" class="gift-line"></p>
+
+  <p id="scrollLine" class="hidden">
+    CHAL NICHE SCROLL KAR ↓
+  </p>
+
+  <div class="gift-space"></div>
+
+  <p id="nextHint" class="gift-line hidden">
+    NICHE KUCH NHI MILEGA NEXT PAGE PR JAA
+  </p>
+
+  <button id="giftNext" class="secondary hidden">
+    NEXT PAGE →
+  </button>
+
+</section>
+
+
+<!-- SURPRISE -->
+<section id="surprise" class="screen">
+
+  <p class="eyebrow">A LITTLE SURPRISE</p>
+
+  <div id="animeDance" class="dance-character">
+    🌸 ✨ 🌸
+  </div>
+
+  <p id="popup" class="popup">YE LE MAJE KAR</p>
+
+  <button id="extraSurprise" class="primary hidden">
+    EK AUR SURPRISE
+  </button>
+
+  <div id="bouquet" class="bouquet hidden">
+    💐
+  </div>
+
+  <p id="bouquetText" class="gift-line hidden">
+    YE LAY SIRF TERE LIYE ITNA MEHNAT SE
+    BOQUET BANAWAYA HU !!
+    CHAL AB KHUS HO JAA GAANDUUU.
+  </p>
+
+  <button id="finishGift" class="secondary hidden">
+    CONTINUE TO THE FINALE →
+  </button>
+
+</section>
+
+
+<!-- ENDING -->
+<section id="ending" class="screen">
+
+  <div class="portal">✦</div>
+
+  <p class="eyebrow">THE LEGEND OF</p>
+
+  <h1 class="end-name">ULLU</h1>
+
+  <h2>KYU RE GAANDU KAISA LAGA MAJA AAYA KYA?</h2>
+
+  <div class="mission">
+    MISSION COMPLETE, ULLU!
+  </div>
+
+  <button id="memoryBtn" class="primary">
+    TAKE A MEMORY
+  </button>
+
+</section>
+
+
+<!-- MEMORY -->
+<section id="memory" class="screen">
+
+  <div class="memory-card">
+
+    <p class="eyebrow">
+      A SPECIAL MEMORY MADE FOR ULLU
+    </p>
+
+    <div class="monkey">🐵 😎</div>
+
+    <h1 class="gold">ULLU</h1>
+
+    <div class="stamp">
+      CERTIFIED<br>GAANDUU
+    </div>
+
+    <p class="tagline">
+      ULLU HAI TOH MASTI HAI!
+    </p>
+
+    <p id="hiddenMessage" class="secret hidden">
+      TU ALAG HI NAMOONA HAI 😂
+    </p>
+
+    <button id="revealSecret" class="secondary">
+      REVEAL SECRET ✨
+    </button>
+
+  </div>
+
+  <p>Take a screenshot to keep this memory.</p>
+
+</section>
+
+</main>
+
+<footer>
+  AN EXPERIENCE MADE WITH CHAOS & MAGIC ✦
+</footer>
+
+
+<script>
+
+// ==================================
+// EMAIL SETTINGS
+// ==================================
+
+// Email backend setup hone ke baad yahan
+// apna Supabase Edge Function URL add karna.
+// Abhi email sending disabled hai.
+
+const REPORT_ENDPOINT = "";
+const REPORT_EMAIL = "avnishanand68@gmail.com";
+
+
+// ==================================
+// ALL 15 QUESTIONS
+// ==================================
+
+const questions = [
+
+{
+q:"ME KON HU?",
+a:["ULLU","GADHA","INSAAN","GAANDUU"],
+correct:0,
+msg:"AREY TUM TOH APNE AAP KO ACHE SE JAANTE HO"
+},
+
+{
+q:"AAPKA FAV ANIMAL",
+a:["GADHA","KUTTA","ME KHUD HU","BAKRII"],
+correct:2,
+msg:"SAHI PAKRE HAI"
+},
+
+{
+q:"SUBAH ALARM BAJNE PE UTHTA HAI YA ALARM KO HI SULA DETA HAI",
+a:["ALARM KO SULA DETA HU.","UTH JAATA HU.","FIR SE SO JAATA HU.","ALARM NHI LAGATA HU."]
+},
+
+{
+q:"AGAR TUMHE 24 GHANTE KE LIYE INVISIBLE BANA DIYA JAAYE TOH KYA KAROGE?",
+a:["FREE ME DUNIYA GHOOMONGA.","KHUD KO MIRROR ME DEKHUNGA.","DARK CHIZEN KARUNGAA.","SABKI SECRET BAATE SUNOONGA."]
+},
+
+{
+q:"GHAR ME MUMMY KI AAWAJ KITNI DUR TAK SUNAI DETI HAI",
+a:["GHAR TAK BAS.","ROAD TAK.","PURE MOHALLE ME.","MERE KO SUNAI NHI DETI KABHI KABHI MUMMY KI AAWAJ."]
+},
+
+{
+q:"AGAR LIFETIME EK FOOD FREE MILE TOH KYA CHOOSE KROGE?",
+a:["PIZZA.","BIRYANI.","MOMOS.","CHHOLE BHATURE."]
+},
+
+{
+q:"AGAR TUMHE KISI KE SATH 7 DIN REHNA PADE TOH KISKE SATH RAHOGE",
+a:["EK BHOOT.","DOST.","LARKII (AREY SALA THARKII).","BILLI."]
+},
+
+{
+q:"FREE INTERNATIONAL TRIP ME KAHA JAAOGE?",
+a:["SWITZERLAND.","JAPAN.","PARIS.","RUSSIA."]
+},
+
+{
+q:"ONLINE ORDER KRNE KE BAAD INSAAN SABSE JYADA KYA KARTA HAI ?",
+a:["ORDER BHOOL JATA HAI.","HAR 5MIN ME TRACKING CHECK KRTA HAI.","DELIVERY BOY KO CALLL KARTA REHTA HAI.","NAYA ORDER KAR DETA HAI."],
+correct:1
+},
+
+{
+q:"JAB TUM KISI KO MESSAGE KRKE DELETE KR DETE HO TOH SAAMNE WALA SABSE PEHLE KYA POOCHTA HAI?",
+a:["KYA HUA ?","KYA DELETE KIYA?","SAB THEEK HAI?","GOOD NIGHTT."],
+correct:1
+},
+
+{
+q:"AGAR TUMHARE GHARWALE TUMHARI GOOGLE SEARCH HISTORY DEKHELE TOH?",
+a:["PHONE CHHUPA DUNGA.","INTERNET BAND KAR DUNGAA.","GHAR CHHORKAR HIMALAYA PAR CHALA JAAUNGAA.","BOLUNGA RESEARCH KR RHA THA."],
+correct:2
+},
+
+{
+q:"AGAR TUMHARA FRIEND TUMHARI SHADI ME TUMHARI EX CRUSH KO BULA DE TOH ?",
+a:["IGNORE KARUNGA.","USI KO DEKHTE RAHUNGA.","FRIEND KO BLOCK .","SHADI SE GAAYAB HO JAUNGAA."],
+correct:0
+},
+
+{
+q:"AISI KON SI CHEEZ HAI JO ANDAR JAATE HI THANDAK DETI HAI ?",
+a:["FRIDGE.","AC ROOM.","WIMMING POOL.","POOL."],
+correct:1
+},
+
+{
+q:"AISI KONSI CHEEZ HAI JO SUBAH UTHTE HI MUH ME JAATI HAI /",
+a:["SPOON.","TOOTHBRUSH.","TOFFEE.","DIH-SCIPLINE."],
+correct:1
+},
+
+{
+q:"SABSE PASANDIDA CHEEZ TERI?",
+a:["KHANA.","GAALI.","SONA.","PHONE."],
+correct:1
+}
+
+];
+
+
+// ==================================
+// GAME LOGIC
+// ==================================
+
+const $ = id => document.getElementById(id);
+
+let current = 0;
+let answers = [];
+let locked = false;
+
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(screen => {
+    screen.classList.remove("active");
+  });
+
+  $(id).classList.add("active");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+function renderQuestion() {
+
+  const q = questions[current];
+
+  $("qNum").textContent =
+    "QUESTION " + String(current+1).padStart(2,"0");
+
+  $("progressText").textContent =
+    String(current+1).padStart(2,"0") + " / 15";
+
+  $("progressBar").style.width =
+    ((current/15)*100) + "%";
+
+  $("questionText").textContent = q.q;
+
+  $("feedback").textContent = "";
+  $("reaction").textContent = "";
+
+  $("answers").innerHTML = "";
+
+  q.a.forEach((answer,i) => {
+
+    const button = document.createElement("button");
+
+    button.className = "answer";
+
+    button.innerHTML =
+      "<strong>" + "ABCD"[i] + "</strong> " + answer;
+
+    button.onclick = () => chooseAnswer(i);
+
+    $("answers").appendChild(button);
+
+  });
+}
+
+function chooseAnswer(choice) {
+
+  if(locked) return;
+
+  locked = true;
+
+  const q = questions[current];
+
+  let correct = null;
+
+  if(q.correct !== undefined) {
+    correct = choice === q.correct;
+  }
+
+  const record = {
+    questionNumber:current+1,
+    question:q.q,
+    selectedOption:"ABCD"[choice],
+    selectedAnswer:q.a[choice],
+    correct:correct,
+    submittedAt:new Date().toISOString()
+  };
+
+  answers.push(record);
+
+  // Browser session mein answers record
+  sessionStorage.setItem(
+    "ulluAnswers",
+    JSON.stringify(answers)
+  );
+
+  [...$("answers").children].forEach(button => {
+    button.disabled = true;
+  });
+
+  if(current < 2) {
+
+    $("feedback").textContent =
+      correct ? q.msg : "OHO!";
+
+  }
+
+  // QUESTIONS 3 TO 8: DOG REACTION
+
+  if(current >= 2 && current <= 7) {
+
+    const dogs = [
+      "🐕 Beagle is here!",
+      "🐶 Husky side-eye!",
+      "🐕 Golden retriever party!",
+      "🐩 Poodle dance!",
+      "🐕 Corgi zoomies!",
+      "🐶 Funny pug reaction!"
+    ];
+
+    $("reaction").innerHTML =
+      '<div class="dog-animation">🐕</div>' +
+      dogs[current-2];
+
+    $("feedback").textContent = "ANSWER LOCKED IN";
+
+  }
+
+  // QUESTIONS 9 TO 15
+
+  if(current >= 8) {
+
+    if(correct) {
+
+      $("feedback").textContent =
+        "CORRECT! ULLU! ✨";
+
+      $("reaction").innerHTML =
+        '<div class="celebrate">👑 💃 ✨ 🎉</div>';
+
+    } else {
+
+      $("feedback").textContent =
+        "OHO! WRONG ANSWER!";
+
+      $("reaction").innerHTML =
+        '<div class="celebrate">🥺 😭</div>';
+
+    }
+
+  }
+
+  const delay =
+    (current >= 2 && current <= 7) ? 3000 : 2200;
+
+  setTimeout(() => {
+
+    current++;
+    locked = false;
+
+    if(current < questions.length) {
+
+      renderQuestion();
+
+    } else {
+
+      $("progressBar").style.width = "100%";
+
+      showScreen("gift");
+
+    }
+
+  },delay);
+
+}
+
+
+// ==================================
+// INTRO
+// ==================================
+
+$("enterBtn").onclick = () => {
+
+  showScreen("quiz");
+
+  renderQuestion();
+
+};
+
+
+// ==================================
+// TREASURE CHEST
+// ==================================
+
+$("chestBtn").onclick = () => {
+
+  $("chestBtn").disabled = true;
+
+  $("monkeyLine").textContent =
+    "KYA RE GAANDU, KYA KHOJ RHA THA IS GIFT BOX ME?";
+
+  $("scrollLine").classList.remove("hidden");
+
+  setTimeout(() => {
+    $("nextHint").classList.remove("hidden");
+  },1800);
+
+  setTimeout(() => {
+    $("giftNext").classList.remove("hidden");
+  },2600);
+
+};
+
+$("giftNext").onclick = () => {
+
+  showScreen("surprise");
+
+  $("extraSurprise").classList.add("hidden");
+
+  setTimeout(() => {
+
+    $("animeDance").classList.add("hidden");
+    $("popup").classList.add("hidden");
+
+    $("extraSurprise").classList.remove("hidden");
+
+  },5000);
+
+};
+
+
+// ==================================
+// SECOND SURPRISE + BOUQUET
+// ==================================
+
+$("extraSurprise").onclick = () => {
+
+  $("extraSurprise").classList.add("hidden");
+
+  $("bouquet").classList.remove("hidden");
+
+  $("bouquetText").classList.remove("hidden");
+
+  $("finishGift").classList.remove("hidden");
+
+};
+
+
+// ==================================
+// EMAIL REPORT
+// ==================================
+
+async function sendCombinedReport() {
+
+  if(!REPORT_ENDPOINT) {
+
+    console.warn(
+      "Email backend not connected yet. Answers are stored in this browser session."
+    );
+
+    return;
+
+  }
+
+  const scored = answers.filter(
+    answer => answer.correct !== null
+  );
+
+  const score = scored.filter(
+    answer => answer.correct === true
+  ).length;
+
+  const report = {
+
+    player:"ULLU",
+
+    recipient:REPORT_EMAIL,
+
+    completedAt:new Date().toISOString(),
+
+    score:score,
+
+    totalScored:scored.length,
+
+    answers:answers
+
+  };
+
+  try {
+
+    const response = await fetch(REPORT_ENDPOINT, {
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":"application/json"
+      },
+
+      body:JSON.stringify(report)
+
+    });
+
+    if(!response.ok) {
+      throw new Error("Report could not be sent.");
+    }
+
+    console.log("Combined report sent.");
+
+  } catch(error) {
+
+    console.error(error);
+
+    alert(
+      "Mission complete! Email report send nahi ho payi. Backend setup check karna hoga."
+    );
+
+  }
+
+}
+
+
+// ==================================
+// FINALE
+// ==================================
+
+$("finishGift").onclick = async () => {
+
+  showScreen("ending");
+
+  await sendCombinedReport();
+
+};
+
+$("memoryBtn").onclick = () => {
+
+  showScreen("memory");
+
+};
+
+
+// ==================================
+// SECRET MEMORY MESSAGE
+// ==================================
+
+$("revealSecret").onclick = () => {
+
+  $("hiddenMessage").classList.toggle("hidden");
+
+};
+
+
+// ==================================
+// END
+// ==================================
+
+</script>
+
+</body>
+</html>

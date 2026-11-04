@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -407,7 +406,6 @@ button:hover {
   </button>
 </section>
 
-
 <!-- QUIZ -->
 <section id="quiz" class="screen">
 
@@ -429,7 +427,6 @@ button:hover {
 
   <div class="reaction" id="reaction"></div>
 </section>
-
 
 <!-- GIFT -->
 <section id="gift" class="screen">
@@ -458,7 +455,6 @@ button:hover {
   </button>
 
 </section>
-
 
 <!-- SURPRISE -->
 <section id="surprise" class="screen">
@@ -491,7 +487,6 @@ button:hover {
 
 </section>
 
-
 <!-- ENDING -->
 <section id="ending" class="screen">
 
@@ -512,7 +507,6 @@ button:hover {
   </button>
 
 </section>
-
 
 <!-- MEMORY -->
 <section id="memory" class="screen">
@@ -551,10 +545,12 @@ button:hover {
 
 </main>
 
+<!-- Invisible anti-bot challenge mount -->
+<div id="turnstile-container"></div>
+
 <footer>
   AN EXPERIENCE MADE WITH CHAOS & MAGIC ✦
 </footer>
-
 
 <script>
 
@@ -562,12 +558,12 @@ button:hover {
 // EMAIL SETTINGS
 // ==================================
 
-// Email backend setup hone ke baad yahan
-// apna Supabase Edge Function URL add karna.
-// Abhi email sending disabled hai.
-
-const REPORT_ENDPOINT = "";
+const REPORT_ENDPOINT = "https://vpijojxbfjlheowyrnus.supabase.co/functions/v1/send-quiz-report";
 const REPORT_EMAIL = "avnishanand68@gmail.com";
+const TURNSTILE_SITE_KEY = "0x4AAAAAAFzkXcjC6tK_PC2E";
+
+let turnstileWidgetId = null;
+let reportSending = false;
 
 
 // ==================================
@@ -749,7 +745,6 @@ function chooseAnswer(choice) {
 
   answers.push(record);
 
-  // Browser session mein answers record
   sessionStorage.setItem(
     "ulluAnswers",
     JSON.stringify(answers)
@@ -911,86 +906,107 @@ $("extraSurprise").onclick = () => {
 // EMAIL REPORT
 // ==================================
 
-async function sendCombinedReport() {
+async function sendCombinedReport(turnstileToken) {
 
-  if(!REPORT_ENDPOINT) {
+  const scored = answers.filter(answer => answer.correct !== null);
 
-    console.warn(
-      "Email backend not connected yet. Answers are stored in this browser session."
-    );
-
-    return;
-
-  }
-
-  const scored = answers.filter(
-    answer => answer.correct !== null
-  );
-
-  const score = scored.filter(
-    answer => answer.correct === true
-  ).length;
+  const score = scored.filter(answer => answer.correct === true).length;
 
   const report = {
-
-    player:"ULLU",
-
-    recipient:REPORT_EMAIL,
-
-    completedAt:new Date().toISOString(),
-
-    score:score,
-
-    totalScored:scored.length,
-
-    answers:answers
-
+    player: "ULLU",
+    recipient: REPORT_EMAIL,
+    completedAt: new Date().toISOString(),
+    score: score,
+    totalScored: scored.length,
+    answers: answers
   };
 
   try {
 
     const response = await fetch(REPORT_ENDPOINT, {
-
-      method:"POST",
-
-      headers:{
-        "Content-Type":"application/json"
-      },
-
-      body:JSON.stringify(report)
-
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        report: report,
+        turnstileToken: turnstileToken
+      })
     });
 
-    if(!response.ok) {
-      throw new Error("Report could not be sent.");
+    if (!response.ok) {
+      const details = await response.text().catch(() => "");
+      throw new Error("Report request failed (" + response.status + "). " + details);
     }
 
-    console.log("Combined report sent.");
+    console.log("Combined report and completion email sent.");
 
-  } catch(error) {
+  } catch (error) {
 
     console.error(error);
+    reportSending = false;
 
-    alert(
-      "Mission complete! Email report send nahi ho payi. Backend setup check karna hoga."
-    );
+    alert("Mission complete! Email nahi ja payi. Supabase function / Resend setup check karna hoga.");
 
   }
+}
+
+
+// Cloudflare Turnstile load callback
+
+function onTurnstileLoad() {
+
+  if (!TURNSTILE_SITE_KEY) {
+    console.error("Cloudflare Site Key missing.");
+    return;
+  }
+
+  turnstileWidgetId = window.turnstile.render("#turnstile-container", {
+
+    sitekey: TURNSTILE_SITE_KEY,
+
+    size: "invisible",
+
+    callback: function(token) {
+      sendCombinedReport(token);
+    },
+
+    "error-callback": function() {
+      reportSending = false;
+      alert("Security check complete nahi hua. Dobara CONTINUE dabao.");
+    },
+
+    "expired-callback": function() {
+      reportSending = false;
+      alert("Security check expire ho gaya. Dobara CONTINUE dabao.");
+    }
+
+  });
 
 }
 
 
-// ==================================
-// FINALE
-// ==================================
+// Finale: request fresh anti-bot token and send both emails
 
-$("finishGift").onclick = async () => {
+$("finishGift").onclick = () => {
+
+  if (reportSending) return;
+
+  if (!window.turnstile || turnstileWidgetId === null) {
+
+    alert("Turnstile load nahi hua. Site Key check karo aur page refresh karo.");
+    return;
+
+  }
+
+  reportSending = true;
 
   showScreen("ending");
 
-  await sendCombinedReport();
+  window.turnstile.reset(turnstileWidgetId);
+
+  window.turnstile.execute(turnstileWidgetId);
 
 };
+
 
 $("memoryBtn").onclick = () => {
 
@@ -1014,6 +1030,11 @@ $("revealSecret").onclick = () => {
 // END
 // ==================================
 
+</script>
+
+<script
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad"
+  async defer>
 </script>
 
 </body>

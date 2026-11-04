@@ -248,6 +248,22 @@ button:hover {
   color:#ff9ee9;
 }
 
+.reaction-image {
+  display:block;
+  width:min(190px, 48vw);
+  height:190px;
+  object-fit:contain;
+  margin:12px auto 4px;
+  filter:drop-shadow(0 8px 18px #ff4fd866);
+  animation:celebrate .7s infinite alternate;
+}
+.reaction-caption {
+  font:700 14px Orbitron;
+  color:var(--gold);
+  letter-spacing:1px;
+}
+
+
 .dog-animation {
   font-size:55px;
   animation:doggo .6s infinite alternate;
@@ -570,6 +586,40 @@ let reportSending = false;
 // ALL 15 QUESTIONS
 // ==================================
 
+
+const happyAnimeSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 260">
+<defs><linearGradient id="bgH" x2="1" y2="1"><stop stop-color="#51206e"/><stop offset="1" stop-color="#f05bbd"/></linearGradient><linearGradient id="hairH" x2="1" y2="1"><stop stop-color="#24133f"/><stop offset="1" stop-color="#9b3b91"/></linearGradient></defs>
+<circle cx="120" cy="126" r="112" fill="url(#bgH)" opacity=".35"/>
+<path d="M42 246 Q45 172 82 163 L158 163 Q197 177 201 246Z" fill="#8b4bb4" stroke="#f8c5ff" stroke-width="4"/>
+<path d="M65 121 Q49 28 126 23 Q205 28 181 143 L172 187 L68 183Z" fill="url(#hairH)" stroke="#2b1745" stroke-width="5"/>
+<path d="M78 93 Q75 58 119 55 Q164 54 168 98 L162 145 Q151 177 121 180 Q88 173 77 143Z" fill="#ffd9c8" stroke="#6e315f" stroke-width="3"/>
+<path d="M76 100 Q76 35 132 42 Q167 45 177 90 Q151 80 136 62 Q112 91 76 100Z" fill="url(#hairH)"/>
+<path d="M83 119 Q98 104 111 119 M132 119 Q147 104 160 119" fill="none" stroke="#3d2854" stroke-width="5" stroke-linecap="round"/>
+<ellipse cx="100" cy="127" rx="8" ry="12" fill="#7047b8"/><ellipse cx="145" cy="127" rx="8" ry="12" fill="#7047b8"/>
+<circle cx="102" cy="124" r="3" fill="white"/><circle cx="147" cy="124" r="3" fill="white"/>
+<path d="M108 151 Q122 166 138 150" fill="none" stroke="#d34d78" stroke-width="4" stroke-linecap="round"/>
+<path d="M67 93 Q45 122 66 174 M171 86 Q202 122 178 179" fill="none" stroke="#24133f" stroke-width="17" stroke-linecap="round"/>
+<path d="M91 188 L120 213 L149 188" fill="none" stroke="#ffd77a" stroke-width="5"/><path d="M120 205l7 10-7 10-7-10Z" fill="#ffd77a"/>
+<g fill="#fff4a8"><path d="M34 55l5 13 13 5-13 5-5 13-5-13-13-5 13-5Z"/><path d="M199 38l4 10 10 4-10 4-4 10-4-10-10-4 10-4Z"/></g></svg>`;
+
+const cryingAnimeSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 260">
+<defs><linearGradient id="bgC" x2="1" y2="1"><stop stop-color="#253b78"/><stop offset="1" stop-color="#9b69bd"/></linearGradient><linearGradient id="hairC" x2="1" y2="1"><stop stop-color="#21163d"/><stop offset="1" stop-color="#684a91"/></linearGradient></defs>
+<circle cx="120" cy="126" r="112" fill="url(#bgC)" opacity=".4"/>
+<path d="M42 246 Q45 172 82 163 L158 163 Q197 177 201 246Z" fill="#6254a3" stroke="#d7caff" stroke-width="4"/>
+<path d="M65 121 Q49 28 126 23 Q205 28 181 143 L172 187 L68 183Z" fill="url(#hairC)" stroke="#21163d" stroke-width="5"/>
+<path d="M78 93 Q75 58 119 55 Q164 54 168 98 L162 145 Q151 177 121 180 Q88 173 77 143Z" fill="#ffd9c8" stroke="#6e315f" stroke-width="3"/>
+<path d="M76 100 Q76 35 132 42 Q167 45 177 90 Q151 80 136 62 Q112 91 76 100Z" fill="url(#hairC)"/>
+<path d="M84 116 Q98 126 111 116 M132 116 Q147 126 160 116" fill="none" stroke="#3d2854" stroke-width="5" stroke-linecap="round"/>
+<ellipse cx="100" cy="130" rx="8" ry="12" fill="#5266ba"/><ellipse cx="145" cy="130" rx="8" ry="12" fill="#5266ba"/>
+<path d="M92 139 Q86 153 92 166 Q101 159 99 143Z M151 139 Q145 153 151 166 Q160 159 158 143Z" fill="#79dfff" opacity=".9"/>
+<path d="M109 157 Q122 146 138 157" fill="none" stroke="#b84d78" stroke-width="4" stroke-linecap="round"/>
+<path d="M67 93 Q45 122 66 174 M171 86 Q202 122 178 179" fill="none" stroke="#21163d" stroke-width="17" stroke-linecap="round"/>
+<path d="M91 188 L120 213 L149 188" fill="none" stroke="#d7caff" stroke-width="5"/>
+<g fill="#dff7ff"><path d="M34 55l5 13 13 5-13 5-5 13-5-13-13-5 13-5Z"/><path d="M199 38l4 10 10 4-10 4-4 10-4-10-10-4 10-4Z"/></g></svg>`;
+
+const happyAnimeImage = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(happyAnimeSVG);
+const cryingAnimeImage = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(cryingAnimeSVG);
+
 const questions = [
 
 {
@@ -754,56 +804,25 @@ function chooseAnswer(choice) {
     button.disabled = true;
   });
 
-  if(current < 2) {
-
-    $("feedback").textContent =
-      correct ? q.msg : "OHO!";
-
-  }
-
-  // QUESTIONS 3 TO 8: DOG REACTION
-
-  if(current >= 2 && current <= 7) {
-
-    const dogs = [
-      "🐕 Beagle is here!",
-      "🐶 Husky side-eye!",
-      "🐕 Golden retriever party!",
-      "🐩 Poodle dance!",
-      "🐕 Corgi zoomies!",
-      "🐶 Funny pug reaction!"
-    ];
-
-    $("reaction").innerHTML =
-      '<div class="dog-animation">🐕</div>' +
-      dogs[current-2];
-
-    $("feedback").textContent = "ANSWER LOCKED IN";
-
-  }
-
-  // QUESTIONS 9 TO 15
-
-  if(current >= 8) {
-
-    if(correct) {
-
-      $("feedback").textContent =
-        "CORRECT! ULLU! ✨";
-
+  // Questions with an answer key get a happy or crying anime reaction.
+  if (q.correct !== undefined) {
+    if (correct) {
+      $("feedback").textContent = "CORRECT! ULLU! ✨";
       $("reaction").innerHTML =
-        '<div class="celebrate">👑 💃 ✨ 🎉</div>';
-
+        '<img class="reaction-image" alt="Happy anime woman celebrating" src="' + happyAnimeImage + '">' +
+        '<div class="reaction-caption">WAH! EKDUM SAHI! ✨</div>';
     } else {
-
-      $("feedback").textContent =
-        "OHO! WRONG ANSWER!";
-
+      $("feedback").textContent = "OHO! WRONG ANSWER!";
       $("reaction").innerHTML =
-        '<div class="celebrate">🥺 😭</div>';
-
+        '<img class="reaction-image" alt="Crying anime woman" src="' + cryingAnimeImage + '">' +
+        '<div class="reaction-caption">AREY YAAR, GALAT HO GAYA! 😭</div>';
     }
-
+  } else {
+    // Questions without a defined correct option are opinion-based.
+    $("feedback").textContent = "ANSWER LOCKED IN";
+    $("reaction").innerHTML =
+      '<img class="reaction-image" alt="Happy anime woman" src="' + happyAnimeImage + '">' +
+      '<div class="reaction-caption">ISKA KOI RIGHT YA WRONG NAHI! 💖</div>';
   }
 
   const delay =
